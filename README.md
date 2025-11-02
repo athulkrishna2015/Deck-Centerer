@@ -1,7 +1,7 @@
-# Deck Centerer
+# [Deck Centerer](https://github.com/athulkrishna2015/Deck-Centerer)
+[Install from anki web](https://ankiweb.net/shared/info/1520580564)
 
 Remembers the last reviewed deck and automatically scrolls to it in Anki’s Deck Browser, with an optional temporary green outline highlight for quick visual confirmation.  
-Repository: https://github.com/athulkrishna2015/Deck-Centerer
 
 ## Features
 
@@ -48,6 +48,9 @@ Repository: https://github.com/athulkrishna2015/Deck-Centerer
 ## Settings
 
 Open Anki → Tools → Add-ons → select “Deck Centerer” → Config.  
+
+<img width="550" height="417" alt="Screenshot_20251102_194836" src="https://github.com/user-attachments/assets/e57e02f0-4906-4b7b-8e7c-7121caa9f0ea" />
+
 
 Available options:
 - Center on scroll (boolean): If enabled, centers the target row; otherwise scrolls it just into view.  
