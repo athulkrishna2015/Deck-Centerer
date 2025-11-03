@@ -24,16 +24,7 @@ Remembers the last reviewed deck and automatically scrolls to it in Anki’s Dec
 
 1. Open Anki → Tools → Add-ons → Open Add-ons Folder.  
 2. Create a folder named `Deck-Centerer` (or your preferred folder name).  
-3. Copy these files into it:
-   - `__init__.py`
-   - `constants.py`
-   - `config.py`
-   - `js.py`
-   - `decks.py`
-   - `hooks.py`
-   - `legacy.py`
-   - `settings.py`
-   - `config.json`
+3. Copy files into it:
 4. Restart Anki.  
 
 ### Updating
@@ -59,7 +50,22 @@ Available options:
 - Max tries (integer): Maximum number of selection attempts.  
 - Reset to defaults: Restores shipped defaults (also clears remembered last deck id/name).  
 
-## Configuration (config.json)
+## Changelog
 
-Deck Centerer ships with these defaults; the settings dialog reads/writes the same values:
+### [2.1.0] - 2025-11-03 
+
+#### Added
+- Add a persistent “skip” guard that activates on deck tree expand/collapse via mouse, touch, or keyboard, preventing auto-scroll during these interactions in the Deck Browser. 
+- Add a MutationObserver for aria-expanded changes to catch programmatic toggles that don’t originate from direct user clicks or key presses, ensuring no unintended scroll on child subdeck expansion/collapse. 
+- Add a lightweight persistence of the skip window across re-renders using a small JS bridge and storage so the guard reliably survives Deck Browser DOM refreshes. 
+
+#### Changed
+- Change the scrolling script to early-return when the skip guard is active, short-circuiting retries to avoid any viewport jump while users are expanding or collapsing deck nodes. 
+- Tighten the deck row target lookup while keeping existing id/name fallbacks, maintaining compatibility with current behavior that scrolls to the last reviewed deck when appropriate. 
+
+#### Fixed
+- Fix unintended auto-scroll that occurred after expanding or collapsing parent and child subdecks in the Deck Browser by gating the behavior behind the new skip guard and timing window. 
+
+### [1.0.0] - 2025-10-30 
+- Initial release: remember the last reviewed deck and auto-scroll to it on Deck Browser render or app start, with optional highlight and configurable timing/retry behavior. 
 
