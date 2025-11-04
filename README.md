@@ -2,7 +2,7 @@
 [Install from anki web](https://ankiweb.net/shared/info/1520580564)
 
 Remembers the last reviewed deck and automatically scrolls to it in Anki’s Deck Browser, with an optional temporary green outline highlight for quick visual confirmation.  
-
+This addon pair together well with [Review Hotmouse Plus Overview](https://ankiweb.net/shared/info/1054369752)
 ## Features
 
 - Remembers current deck id and name when entering review or overview.  
