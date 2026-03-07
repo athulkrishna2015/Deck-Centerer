@@ -8,7 +8,7 @@ from aqt.qt import (
 from .constants import (
     CFG_KEY_CENTER, CFG_KEY_HIGHLIGHT, CFG_KEY_RETRY_MS, CFG_KEY_MAX_TRIES, DEFAULTS
 )
-from .config import get_cfg, save_cfg, ensure_defaults
+from .config import get_cfg, get_values, save_cfg
 
 
 def _sb(name: str):
@@ -74,11 +74,11 @@ class SettingsDialog(QDialog):
         self.layout.addLayout(btns)
 
     def _load_values(self):
-        cfg = ensure_defaults()
-        self.cb_center.setChecked(bool(cfg.get(CFG_KEY_CENTER, True)))
-        self.cb_highlight.setChecked(bool(cfg.get(CFG_KEY_HIGHLIGHT, True)))
-        self.spin_retry.setValue(int(cfg.get(CFG_KEY_RETRY_MS, DEFAULTS[CFG_KEY_RETRY_MS])))
-        self.spin_tries.setValue(int(cfg.get(CFG_KEY_MAX_TRIES, DEFAULTS[CFG_KEY_MAX_TRIES])))
+        _, _, center, highlight, retry_ms, max_tries = get_values()
+        self.cb_center.setChecked(center)
+        self.cb_highlight.setChecked(highlight)
+        self.spin_retry.setValue(retry_ms)
+        self.spin_tries.setValue(max_tries)
 
     def _on_save(self):
         cfg: Dict[str, Any] = get_cfg()

@@ -13,7 +13,7 @@ DEFAULTS = {
     CFG_KEY_ID: None,
     CFG_KEY_NAME: None,
     CFG_KEY_CENTER: True,
-    CFG_KEY_HIGHLIGHT: True,  # NEW
+    CFG_KEY_HIGHLIGHT: False,  # NEW
     CFG_KEY_RETRY_MS: 120,
     CFG_KEY_MAX_TRIES: 15,
 }

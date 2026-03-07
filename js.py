@@ -35,18 +35,31 @@ def make_scroll_js(
     `[data-node-id="${{deckId}}"]`,
   ] : [];
 
+  function normalizeTarget(node) {{
+    if (!node) return null;
+    return node.closest("tr") || node;
+  }}
+
   function findById() {{
+    const byHtmlId = normalizeTarget(document.getElementById(String(deckId)));
+    if (byHtmlId) return byHtmlId;
+
+    const byOpenCmd = normalizeTarget(
+      document.querySelector(`a.deck[onclick="return pycmd('open:${{deckId}}')"]`)
+    );
+    if (byOpenCmd) return byOpenCmd;
+
     for (const sel of selectors) {{
-      const el = document.querySelector(sel);
+      const el = normalizeTarget(document.querySelector(sel));
       if (el) return el;
 
-      const nodes = Array.from(document.querySelectorAll("li, div, a, span"));
+      const nodes = Array.from(document.querySelectorAll("tr, li, div, a, span"));
       for (const n of nodes) {{
         const ds = n.dataset || {{}};
         if (String(ds.did) === String(deckId) ||
             String(ds.deckId) === String(deckId) ||
             String(ds.nodeId) === String(deckId)) {{
-          return n;
+          return normalizeTarget(n);
         }}
       }}
     }}
@@ -61,14 +74,14 @@ def make_scroll_js(
     const parts = want.split("::");
     const last = parts[parts.length - 1];
 
-    const candidates = Array.from(document.querySelectorAll("li, div, a, span"));
+    const candidates = Array.from(document.querySelectorAll("a.deck, li, div, a, span"));
 
     for (const n of candidates) {{
-      if (textOf(n) === want) return n;
+      if (textOf(n) === want) return normalizeTarget(n);
     }}
 
     for (const n of candidates) {{
-      if (textOf(n) === last) return n;
+      if (textOf(n) === last) return normalizeTarget(n);
     }}
 
     return null;

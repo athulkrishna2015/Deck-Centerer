@@ -49,6 +49,7 @@ def install_toggle_guard(deck_browser: Any) -> None:
     (() => {
       if (window.__ldc_guard_installed) { return; }
       window.__ldc_guard_installed = true;
+      const toggleSelector = '[aria-expanded], a.collapse, .expand, .expander, .caret, .toggle, .collapse-toggle, .deck-collapse, .tree-item .collapse, .tree-item .expander';
 
       const persist = (ms=1500) => {
         const until = Date.now() + ms;
@@ -57,22 +58,24 @@ def install_toggle_guard(deck_browser: Any) -> None:
       };
 
       const mark = () => persist(1500);
+      const isToggleTarget = (node) => !!(node && node.closest && node.closest(toggleSelector));
 
       // Mouse/pointer/touch toggles
       const onClick = (e) => {
         const t = e.target;
         if (!t) return;
-        const toggle = t.closest('[aria-expanded], .collapse, .expand, .expander, .caret, .toggle, .collapse-toggle, .deck-collapse, .tree-item .collapse, .tree-item .expander, li, [role="treeitem"]');
-        if (toggle) { mark(); }
+        if (isToggleTarget(t)) { mark(); }
       };
       document.addEventListener('click', onClick, true);
       document.addEventListener('pointerdown', onClick, true);
       document.addEventListener('mousedown', onClick, true);
 
-      // Keyboard toggles (arrows, enter, space, vim h/l)
+      // Keyboard toggles (left/right, enter, space, vim h/l)
       document.addEventListener('keydown', (e) => {
         const k = e.key;
-        if (k === 'ArrowLeft' || k === 'ArrowRight' || k === 'ArrowUp' || k === 'ArrowDown' || k === 'Enter' || k === ' ' || k === 'h' || k === 'l') {
+        const focus = document.activeElement || e.target;
+        if ((k === 'ArrowLeft' || k === 'ArrowRight' || k === 'Enter' || k === ' ' || k === 'h' || k === 'l') &&
+            (isToggleTarget(e.target) || isToggleTarget(focus))) {
           mark();
         }
       }, true);
@@ -100,6 +103,8 @@ def scroll_to_saved_deck_in(deck_browser: Any) -> None:
         return
 
     deck_id, deck_name, center, highlight, retry_ms, max_tries = get_values()
+    if deck_id is None and not deck_name:
+        return
     js = make_scroll_js(deck_id, deck_name, center, highlight)
 
     tries = {"n": 0}
