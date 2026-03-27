@@ -53,6 +53,11 @@ Available options:
 - Max tries (integer): Maximum number of selection attempts.  
 - Reset to defaults: Restores shipped defaults (also clears remembered last deck id/name).  
 
+## Support
+
+If you find this add-on useful, please consider supporting its development:
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/D1D01W6NQT)
 ## Changelog
 
 ### 2026-03-07
