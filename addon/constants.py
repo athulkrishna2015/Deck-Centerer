@@ -16,4 +16,5 @@ DEFAULTS = {
     CFG_KEY_HIGHLIGHT: False,  # NEW
     CFG_KEY_RETRY_MS: 120,
     CFG_KEY_MAX_TRIES: 15,
+    "last_version": "",
 }

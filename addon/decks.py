@@ -49,7 +49,7 @@ def install_toggle_guard(deck_browser: Any) -> None:
     (() => {
       if (window.__ldc_guard_installed) { return; }
       window.__ldc_guard_installed = true;
-      const toggleSelector = '[aria-expanded], a.collapse, .expand, .expander, .caret, .toggle, .collapse-toggle, .deck-collapse, .tree-item .collapse, .tree-item .expander';
+      const toggleSelector = '[aria-expanded], a.collapse, .expand, .expander, .caret, .toggle, .collapse-toggle, .deck-collapse, .tree-item .collapse, .tree-item .expander, [onclick*="collapse"], [onclick*="toggle"]';
 
       const persist = (ms=1500) => {
         const until = Date.now() + ms;
@@ -58,7 +58,21 @@ def install_toggle_guard(deck_browser: Any) -> None:
       };
 
       const mark = () => persist(1500);
-      const isToggleTarget = (node) => !!(node && node.closest && node.closest(toggleSelector));
+
+      const isToggleTarget = (node) => {
+        if (!node) return false;
+        if (node.closest && node.closest(toggleSelector)) return true;
+
+        // Check if the trimmed text of the clicked element is exactly one of the expand/collapse symbols
+        try {
+          const txt = (node.textContent || "").trim();
+          if (txt === "+" || txt === "-" || txt === "−" || txt === "▸" || txt === "▾" || txt === "▶" || txt === "▼") {
+            return true;
+          }
+        } catch (e) {}
+
+        return false;
+      };
 
       // Mouse/pointer/touch toggles
       const onClick = (e) => {

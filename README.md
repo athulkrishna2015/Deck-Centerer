@@ -60,6 +60,19 @@ If you find this add-on useful, please consider supporting its development:
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/D1D01W6NQT)
 ## Changelog
 
+### 3.0.0 (2026-07-07)
+
+#### Added
+- Support tab in settings config interface featuring Ko-fi integration and UPI/BTC/ETH donation addresses.
+- Auto-open settings dialog showing the Support tab once when the add-on is newly installed or updated.
+
+#### Changed
+- Restructured core source files into the `addon/` subdirectory.
+- Updated `make_ankiaddon.py` and `bump.py` to match the new package structure.
+
+#### Fixed
+- Fixed subdeck expand/collapse clicks on plus, minus, and arrow symbols triggering unwanted deck centering by matching inline onclick attributes and symbol strings.
+
 ### 2026-03-07
 
 #### Changed

@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.ankiaddon
+*.log
+*.log.*
+meta.json
+addon/meta.json
+.vscode/
+.idea/
+.DS_Store
+scratch/

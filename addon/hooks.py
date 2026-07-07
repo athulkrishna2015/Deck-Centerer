@@ -15,8 +15,46 @@ from .decks import (
 )
 
 
+def get_addon_version() -> str:
+    import json
+    from pathlib import Path
+    try:
+        addon_dir = Path(__file__).resolve().parent
+        manifest_path = addon_dir / "manifest.json"
+        if manifest_path.exists():
+            with open(manifest_path, "r", encoding="utf-8") as f:
+                manifest = json.load(f)
+                return str(manifest.get("version", "2.2.1"))
+    except Exception:
+        pass
+    return "2.2.1"
+
+
+def check_addon_update() -> None:
+    from aqt import mw
+    from aqt.qt import QTimer
+    from .config import get_cfg, save_cfg
+
+    addon_package = __name__.split(".")[0]
+    meta = mw.addonManager.addonMeta(addon_package)
+    if meta.get("supporter_opt_out", False):
+        return
+
+    current_ver = get_addon_version()
+    cfg = get_cfg()
+    last_ver = cfg.get("last_version", "")
+
+    if current_ver != last_ver:
+        cfg["last_version"] = current_ver
+        save_cfg(cfg)
+
+        from .settings import open_settings
+        QTimer.singleShot(2000, lambda: open_settings(select_support_tab=True))
+
+
 def _on_profile_did_open() -> None:
     ensure_defaults()
+    check_addon_update()
 
 
 def _on_state_did_change(new_state: str, old_state: str) -> None:
