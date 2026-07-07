@@ -5,6 +5,7 @@ CFG_KEY_ID = "last_deck_id"
 CFG_KEY_NAME = "last_deck_name"
 CFG_KEY_CENTER = "center_on_scroll"
 CFG_KEY_HIGHLIGHT = "show_highlight"  # NEW
+CFG_KEY_CENTER_ON_TOGGLE = "center_on_toggle"
 CFG_KEY_RETRY_MS = "retry_ms"
 CFG_KEY_MAX_TRIES = "max_tries"
 
@@ -14,6 +15,7 @@ DEFAULTS = {
     CFG_KEY_NAME: None,
     CFG_KEY_CENTER: True,
     CFG_KEY_HIGHLIGHT: False,  # NEW
+    CFG_KEY_CENTER_ON_TOGGLE: True,
     CFG_KEY_RETRY_MS: 120,
     CFG_KEY_MAX_TRIES: 15,
     "last_version": "",

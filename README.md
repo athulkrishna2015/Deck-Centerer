@@ -60,6 +60,15 @@ If you find this add-on useful, please consider supporting its development:
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/D1D01W6NQT)
 ## Changelog
 
+### 3.0.1 (2026-07-07)
+
+#### Added
+- Added checkbox for "Center parent subdeck on expand/collapse" in the settings config UI.
+
+#### Fixed
+- Fixed expand/collapse reload flash and page jumping to top by intercepting and redirecting window.scrollTo synchronously during reload page cycles.
+- Optimized performance by removing redundant mouse/pointer events and adding debouncing to toggle signals.
+
 ### 3.0.0 (2026-07-07)
 
 #### Added

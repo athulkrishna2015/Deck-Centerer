@@ -9,19 +9,28 @@ def make_scroll_js(
     deck_name: Optional[str],
     center: bool,
     highlight: bool,
+    is_override: bool = False,
 ) -> str:
     behavior_block = "center" if center else "nearest"
+    is_override_js = "true" if is_override else "false"
 
     return f"""
 (() => {{
-  // Skip auto-scroll if a prior toggle indicated a skip window; read from localStorage to survive re-render
-  try {{
-    const raw = localStorage.getItem('ldcSkipUntil');
-    const until = raw ? parseInt(raw, 10) : 0;
-    if (until && Date.now() < until) {{
-      return true;
-    }}
-  }} catch (e) {{}}
+  const isOverride = {is_override_js};
+  if (!isOverride) {{
+    // Skip auto-scroll if a prior toggle indicated a skip window; read from localStorage to survive re-render
+    try {{
+      const raw = localStorage.getItem('ldcSkipUntil');
+      const until = raw ? parseInt(raw, 10) : 0;
+      if (until && Date.now() < until) {{
+        const savedScroll = localStorage.getItem('ldcScrollY');
+        if (savedScroll !== null) {{
+          window.scrollTo(0, parseInt(savedScroll, 10));
+        }}
+        return true;
+      }}
+    }} catch (e) {{}}
+  }}
 
   const deckId = {json.dumps(deck_id)};
   const deckName = {json.dumps(deck_name)};

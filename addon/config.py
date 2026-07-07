@@ -3,7 +3,7 @@ from typing import Any, Optional, Dict
 from aqt import mw
 from .constants import (
     CFG_KEY_ID, CFG_KEY_NAME, CFG_KEY_CENTER, CFG_KEY_HIGHLIGHT,
-    CFG_KEY_RETRY_MS, CFG_KEY_MAX_TRIES, DEFAULTS
+    CFG_KEY_CENTER_ON_TOGGLE, CFG_KEY_RETRY_MS, CFG_KEY_MAX_TRIES, DEFAULTS
 )
 
 
@@ -76,6 +76,9 @@ def get_values():
     highlight = _coerce_bool(
         cfg.get(CFG_KEY_HIGHLIGHT), DEFAULTS[CFG_KEY_HIGHLIGHT]
     )
+    center_on_toggle = _coerce_bool(
+        cfg.get(CFG_KEY_CENTER_ON_TOGGLE), DEFAULTS[CFG_KEY_CENTER_ON_TOGGLE]
+    )
     retry_ms = _coerce_int(
         cfg.get(CFG_KEY_RETRY_MS),
         DEFAULTS[CFG_KEY_RETRY_MS],
@@ -88,4 +91,4 @@ def get_values():
         minimum=1,
         maximum=100,
     )
-    return deck_id, deck_name, center, highlight, retry_ms, max_tries
+    return deck_id, deck_name, center, highlight, retry_ms, max_tries, center_on_toggle

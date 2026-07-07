@@ -3,6 +3,7 @@
   "last_deck_name": null,
   "center_on_scroll": true,
   "show_highlight": false,
+  "center_on_toggle": true,
   "retry_ms": 120,
   "max_tries": 15,
   "last_version": ""

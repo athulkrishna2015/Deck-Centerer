@@ -6,7 +6,8 @@ from aqt.qt import (
     QPushButton, QMessageBox, QAction, QTabWidget, QWidget
 )
 from .constants import (
-    CFG_KEY_CENTER, CFG_KEY_HIGHLIGHT, CFG_KEY_RETRY_MS, CFG_KEY_MAX_TRIES, DEFAULTS
+    CFG_KEY_CENTER, CFG_KEY_HIGHLIGHT, CFG_KEY_CENTER_ON_TOGGLE,
+    CFG_KEY_RETRY_MS, CFG_KEY_MAX_TRIES, DEFAULTS
 )
 from .config import get_cfg, get_values, save_cfg
 from .tab_support import SupportTabMixin, ADDON_PACKAGE
@@ -25,7 +26,7 @@ def _sb(name: str):
 class SettingsDialog(QDialog, SupportTabMixin):
     def __init__(self, parent=None, select_support_tab=False):
         super().__init__(parent)
-        self.setWindowTitle("Last Deck Scroller - Settings")
+        self.setWindowTitle("Deck Centerer - Settings")
         self._build_ui(select_support_tab)
         self._load_values()
 
@@ -47,6 +48,10 @@ class SettingsDialog(QDialog, SupportTabMixin):
         # Show highlight
         self.cb_highlight = QCheckBox("Show green outline highlight")
         settings_layout.addWidget(self.cb_highlight)
+
+        # Center on toggle
+        self.cb_center_on_toggle = QCheckBox("Center parent subdeck on expand/collapse")
+        settings_layout.addWidget(self.cb_center_on_toggle)
 
         # Retry timing
         row_retry = QHBoxLayout()
@@ -94,9 +99,10 @@ class SettingsDialog(QDialog, SupportTabMixin):
         self.layout.addLayout(btns)
 
     def _load_values(self):
-        _, _, center, highlight, retry_ms, max_tries = get_values()
+        _, _, center, highlight, retry_ms, max_tries, center_on_toggle = get_values()
         self.cb_center.setChecked(center)
         self.cb_highlight.setChecked(highlight)
+        self.cb_center_on_toggle.setChecked(center_on_toggle)
         self.spin_retry.setValue(retry_ms)
         self.spin_tries.setValue(max_tries)
 
@@ -104,6 +110,7 @@ class SettingsDialog(QDialog, SupportTabMixin):
         cfg: Dict[str, Any] = get_cfg()
         cfg[CFG_KEY_CENTER] = bool(self.cb_center.isChecked())
         cfg[CFG_KEY_HIGHLIGHT] = bool(self.cb_highlight.isChecked())
+        cfg[CFG_KEY_CENTER_ON_TOGGLE] = bool(self.cb_center_on_toggle.isChecked())
         cfg[CFG_KEY_RETRY_MS] = int(self.spin_retry.value())
         cfg[CFG_KEY_MAX_TRIES] = int(self.spin_tries.value())
         save_cfg(cfg)
@@ -149,6 +156,6 @@ def register_config_action():
         mw.addonManager.setConfigAction(__name__, _action)
     except Exception:
         # Fallback: add a Tools menu item if config action is unavailable
-        act = QAction("Last Deck Scroller - Settings", mw)
+        act = QAction("Deck Centerer - Settings", mw)
         act.triggered.connect(open_settings)
         mw.form.menuTools.addAction(act)
